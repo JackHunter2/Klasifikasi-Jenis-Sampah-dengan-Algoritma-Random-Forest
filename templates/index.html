@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Klasifikasi Jenis Sampah - Random Forest</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<div class="container">
+    <h1>🗑️ Klasifikasi Jenis Sampah</h1>
+    <h3>Menggunakan Algoritma Random Forest</h3>
+
+    {% if error_message %}
+    <div class="error-message">
+        <strong>⚠️ Error:</strong> {{ error_message }}
+    </div>
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data" onsubmit="return validateFile()">
+        <div class="form-group">
+            <input type="file" name="file" id="fileInput" accept="image/*" required>
+        </div>
+        <button type="submit">📤 Upload & Prediksi</button>
+    </form>
+
+    {% if filename %}
+    <div class="preview">
+        <h3>Gambar yang di-upload:</h3>
+        <img src="/static/uploads/{{ filename }}" alt="Uploaded image">
+    </div>
+    {% endif %}
+
+    {% if prediction %}
+    <div class="result">
+        <h2>Hasil Prediksi:</h2>
+        <div class="prediction">{{ prediction }}</div>
+        <div class="probability">Probabilitas: {{ probability }}</div>
+        {% if 'Organic' in prediction %}
+        <span class="badge organic">🌱 Organik</span>
+        {% else %}
+        <span class="badge recyclable">♻️ Dapat Didaur Ulang</span>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+</body>
+</html>
